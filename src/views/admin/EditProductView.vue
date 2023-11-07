@@ -4,10 +4,17 @@ import { useRoute, useRouter } from 'vue-router'
 import { doc } from 'firebase/firestore'
 import { useFirestore, useDocument } from 'vuefire'
 import Link from '@/components/Link.vue';
-import { useProductsStore } from '@/stores/products';
+import { useProductsStore } from '../../stores/products';
 import useImage from '@/composables/useImage'
 
 //Consultar Firestore
+
+
+const router = useRouter()
+const route = useRoute()
+const db = useFirestore()
+const docRef = doc(db, 'products', route.params.id)
+const product = useDocument(docRef)
 
 const { onFileChange, url, isImageUploaded } = useImage()
 const products = useProductsStore()
@@ -18,6 +25,22 @@ const formData = reactive({
     availability: '',
     image: ''
 })
+
+watch(product, (product) => {
+    if (!product) {
+        router.push({ name: 'products' })
+    }
+    Object.assign((formData), product)
+})
+
+const submitHandler = async data => {
+    try {
+        await products.updateProduct(docRef, data)
+        router.push({name: 'products'})
+    } catch (error) {
+        console.log(error)
+    }
+}
 </script>
 
 <template>
