@@ -11,7 +11,9 @@ export const useProductsStore = defineStore("products", () => {
     { id: 1, name: "Gafas" },
   ];
 
-  const q = query(collection(db, "products"));
+  const q = query(collection(db, "products"),
+  orderBy( 'name', 'asc'));
+
   const productsCollection = useCollection(q);
 
   async function createProduct(product) {
