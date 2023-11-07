@@ -35,7 +35,7 @@ watch(product, (product) => {
 
 const submitHandler = async data => {
     try {
-        await products.updateProduct(docRef, data)
+        await products.updateProduct(docRef, {...data, url})
         router.push({name: 'products'})
     } catch (error) {
         console.log(error)

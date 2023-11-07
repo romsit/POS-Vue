@@ -21,9 +21,16 @@ export const useProductsStore = defineStore("products", () => {
   }
 
    async function updateProduct(docRef, product) {
-    const { image, ...values } = product
-    
-    await updateDoc(docRef, values)
+    const { image, url, ...values } = product
+
+    if(image.length) {
+      await updateDoc(docRef, {
+        ...values, 
+        image: url.value
+      })
+    } else {
+      await updateDoc(docRef, values)
+    }
    }
 
   const categoryOptions = computed(() => {
