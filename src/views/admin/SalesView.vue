@@ -23,9 +23,10 @@ const formatter = ref({
 
             <p v-else class="text-center text-lg">Selecciona una fecha</p>
 
-            <div>
+            <div v-if="sales.salesCollection.length" class="space-y-5">
                 <SaleDetails v-for="sale in sales.salesCollection" :key="sale.id" :sale="sale" />
             </div>
+            <p v-else-if="!sales.salesCollection.length && sales.isDateSelected" class="text-lg text-center"> No hay ventas este dia.</p>
         </div>
 
     </div>

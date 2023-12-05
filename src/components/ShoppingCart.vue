@@ -28,7 +28,7 @@ const coupon = useCouponStore()
                 {{ formatCurrency(cart.subtotal) }}
             </Amount>
             <Amount>
-                <template #label>Impuestos: </template>
+                <template #label>Taxes: </template>
                 {{ formatCurrency(cart.taxes) }}
             </Amount>
             <Amount v-if="coupon.isValidCoupon">
