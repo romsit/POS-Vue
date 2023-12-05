@@ -1,8 +1,32 @@
 <script setup>
+import { ref } from 'vue'
+import VueTailwindDatePicker from 'vue-tailwind-datepicker'
+import SaleDetails from '../../components/SaleDetails.vue'
+import { useSalesStore } from '../../stores/sales'
+
+
+const sales = useSalesStore()
+const formatter = ref({
+  date: "DD/MM/YYYY",
+  month: "MMM",
+});
 </script>
 
 <template>
-    <div>
-        <h1>Resumen de ventas</h1>
+    <h1 class="text-4xl font-black my-10 ">Resumen de ventas</h1>
+    <div class="md:flex md:items-start gap-5">
+        <div class="md:w-1/2 lg:w-2/3 bg-white flex justify-center p-5">
+            <VueTailwindDatePicker :formatter="formatter" v-model="sales.date" i18n="es" as-single no-input/>
+        </div>
+        <div class="md:w-1/2 lg:w-2/3 space-y-5 lg:h-screen lg:overflow-y-scroll p-5 pb-32">
+            <p class="text-center text-lg" v-if="sales.isDateSelected">Ventas de la fecha <span class="font-black"> {{ sales.date }}</span></p>
+
+            <p v-else class="text-center text-lg">Selecciona una fecha</p>
+
+            <div>
+                <SaleDetails v-for="sale in sales.salesCollection" :key="sale.id" :sale="sale" />
+            </div>
+        </div>
+
     </div>
 </template>
